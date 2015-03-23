@@ -1,5 +1,5 @@
 # import the Flask class from the flask module
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, send_from_directory
 
 # create the application object
 app = Flask(__name__)
@@ -12,6 +12,16 @@ def home():
 @app.route('/welcome')
 def welcome():
     return render_template('welcome.html')  # render a template
+
+# my practice tab; loading the template into this as if root.
+@app.route('/start')
+def start():
+    return render_template('index.html')  # render a template
+
+# opening the images directory for template. Would use nginx to host these in production
+@app.route('/images/<path:path>')
+def send_images(path):
+    return send_from_directory('images', path)
 
 # route for handling the login page logic
 @app.route('/login', methods=['GET', 'POST'])
